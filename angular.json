@@ -136,5 +136,8 @@
       }
     }
   },
-  "defaultProject": "BookMonkey"
+  "defaultProject": "BookMonkey",
+  "cli": {
+    "packageManager": "yarn"
+  }
 }
