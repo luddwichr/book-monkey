@@ -8,22 +8,24 @@ import {Thumbnail} from '../shared/thumbnail';
   styles: []
 })
 export class BookListComponent implements OnInit {
-
   books: Book[];
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit() {
     this.books = [
-      new Book('1234567890123',
+      new Book(
+        '1234567890123',
         'Angular',
         ['Johannes Hoppe', 'Danny Koppenhagen', 'Ferdinand Malcher', 'Gregor Woiwode'],
-        new Date(2017, 3, 1), 'Grundlagen, blabla',
+        new Date(2017, 3, 1),
+        'Grundlagen, blabla',
         5,
         [new Thumbnail('https://ng-buch.de/cover2.jpg', 'Buchcover')],
-        'Lorem ipsum dolor sit amet, consectetur adipisici elit,...'),
-      new Book('0987654321',
+        'Lorem ipsum dolor sit amet, consectetur adipisici elit,...'
+      ),
+      new Book(
+        '0987654321',
         'AngularJS',
         ['Philipp Tarasiewicz', 'Robin Böhm'],
         new Date(2014, 5, 29),
@@ -34,5 +36,4 @@ export class BookListComponent implements OnInit {
       )
     ];
   }
-
 }
