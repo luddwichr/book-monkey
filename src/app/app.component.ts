@@ -5,5 +5,4 @@ import {Component} from '@angular/core';
   template: '<bm-book-list></bm-book-list>',
   styles: []
 })
-export class AppComponent {
-}
+export class AppComponent {}

@@ -5,9 +5,7 @@ import {BookListComponent} from './book-list/book-list.component';
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AppComponent, BookListComponent
-      ],
+      declarations: [AppComponent, BookListComponent]
     }).compileComponents();
   }));
 
