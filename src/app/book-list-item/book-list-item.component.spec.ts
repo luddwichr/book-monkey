@@ -15,7 +15,7 @@ describe('BookListItemComponent', () => {
   it('should render a complete book', () => {
     const book = {
       ...basicBook(),
-      rating: 2.5,
+      rating: 3,
       thumbnails: [{url: 'someUrl', title: 'someImageTitle'}],
       subtitle: 'someSubTitle',
       description: 'someDescription'

@@ -1,0 +1,132 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BookDetailsComponent should render the details for a book 1`] = `
+<div
+  id="root2"
+  ng-version="7.2.8"
+>
+  
+  <div
+    class="ui grid"
+  >
+    <div
+      class="four wide column"
+    >
+      <img
+        alt="someImageTitle"
+        class="ui large image"
+        src="someUrl"
+      />
+    </div>
+    <div
+      class="twelve wide column"
+    >
+      <h1
+        class="ui header"
+      >
+        someTitle
+      </h1>
+      <h3
+        class="ui header"
+      >
+        someSubTitle
+      </h3>
+      <div
+        class="ui divider"
+      />
+      <div
+        class="ui grid"
+      >
+        <div
+          class="four wide column"
+        >
+          <h4
+            class="ui header"
+          >
+            AutorInnen
+          </h4>
+          
+          <span>
+             A
+            
+            <span>
+              , 
+            </span>
+          </span>
+          <span>
+             B
+            
+          </span>
+        </div>
+        <div
+          class="four wide column"
+        >
+          <h4
+            class="ui header"
+          >
+            ISBN
+          </h4>
+           123 
+        </div>
+        <div
+          class="four wide column"
+        >
+          <h4
+            class="ui header"
+          >
+            Erschienen
+          </h4>
+           May 30, 2019 
+        </div>
+        <div
+          class="four wide column"
+        >
+          <h4
+            class="ui header"
+          >
+            Rating
+          </h4>
+          
+          <i
+            class="yellow star icon"
+          />
+          <i
+            class="yellow star icon"
+          />
+          <i
+            class="yellow star icon"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="sixteen wide column"
+    >
+      <h3
+        class="ui header"
+      >
+        Beschreibung
+      </h3>
+       someDescription 
+    </div>
+    <div
+      class="sixteen wide column"
+    >
+      <div
+        class="ui small images"
+      >
+        
+        <img
+          alt="someImageTitle"
+          src="someUrl"
+        />
+      </div>
+    </div>
+  </div>
+  <button
+    class="ui red button"
+  >
+    Zurück zur Buchliste
+  </button>
+</div>
+`;
