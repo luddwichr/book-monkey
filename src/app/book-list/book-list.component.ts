@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {Book} from '../shared/book';
-import {Thumbnail} from '../shared/thumbnail';
 
 @Component({
   selector: 'bm-book-list',
@@ -10,30 +9,38 @@ import {Thumbnail} from '../shared/thumbnail';
 export class BookListComponent implements OnInit {
   books: Book[];
 
-  constructor() {}
-
   ngOnInit() {
     this.books = [
-      new Book(
-        '1234567890123',
-        'Angular',
-        ['Johannes Hoppe', 'Danny Koppenhagen', 'Ferdinand Malcher', 'Gregor Woiwode'],
-        new Date(2017, 3, 1),
-        'Grundlagen, blabla',
-        5,
-        [new Thumbnail('https://ng-buch.de/cover2.jpg', 'Buchcover')],
-        'Lorem ipsum dolor sit amet, consectetur adipisici elit,...'
-      ),
-      new Book(
-        '0987654321',
-        'AngularJS',
-        ['Philipp Tarasiewicz', 'Robin Böhm'],
-        new Date(2014, 5, 29),
-        'Eine praktische Einführung',
-        4.5,
-        [new Thumbnail('https://ng-buch.de/cover1.jpg', 'Buchcover')],
-        'Dieses Buch führt Sie anhand eines zusammenhängennden Beispielprojekts...'
-      )
+      {
+        isbn: '9783864906466',
+        title: 'Angular',
+        authors: ['Ferdinand Malcher', 'Johannes Hoppe', 'Danny Koppenhagen'],
+        published: new Date(2019, 4, 30),
+        subtitle: 'Grundlagen, fortgeschrittene Themen und Best Practices - mit NativeScript und NgRx',
+        rating: 5,
+        thumbnails: [
+          {
+            url: 'https://api3.angular-buch.com/images/angular_auflage2.jpg',
+            title: 'Buchcover'
+          }
+        ],
+        description: 'Die Autoren führen Sie mit einem anspruchsvollen Beispielprojekt durch die Welt von Angular...'
+      },
+      {
+        isbn: '9783864903274',
+        title: 'React',
+        authors: ['Oliver Zeigermann', 'Nils Hartmann'],
+        published: new Date(2016, 6, 17),
+        subtitle: 'Die praktische Einführung in React, React Router und Redux',
+        rating: 3,
+        thumbnails: [
+          {
+            url: 'https://api3.angular-buch.com/images/react.jpg',
+            title: 'Buchcover'
+          }
+        ],
+        description: 'React ist ein JavaScript-Framework zur Entwicklung von Benutzeroberflächen...'
+      }
     ];
   }
 }
