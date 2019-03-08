@@ -1,27 +1,17 @@
 # BookMonkey
 
+[![Build Status](https://travis-ci.org/luddwichr/book-monkey.svg?branch=master)](https://travis-ci.org/luddwichr/book-monkey)
+[![codecov](https://codecov.io/gh/luddwichr/book-monkey/branch/master/graph/badge.svg)](https://codecov.io/gh/luddwichr/book-monkey)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.4.
 
-## Development server
+This is a training project mostly following the instructions from the book ["**Angular**, Grundlagen, fortgeschrittene Techniken und Best Practices mit Typescript"](https://www.dpunkt.de/buecher/12400/9783864903571-angular.html).
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+I deviated from the book project, in that I:
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `jest` to execute the unit tests via [Jest](https://jestjs.io/).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+- use Angular 7 instead of Angular 4
+- use Yarn insted of NPM (see related [commit](https://github.com/luddwichr/book-monkey/commit/23b2ed8423cf4fa2a15c72b08fe94fdd3857b911))
+- use Jest instead of Karma/Jasmine for unit testing (see related [commit](https://github.com/luddwichr/book-monkey/commit/6739f8b57af88e6b11371582b2fd4bc81a0c0e73))
+- use prettier with a git-hook (via husky) for consistent formatting (see related [commit](https://github.com/luddwichr/book-monkey/commit/0cc24c30cba1369e2efbb21a6840ee4141d6e952))
+- write tests as much as possible
+- use ng-mocks and ts-mockery for easier testing (see [commit](https://github.com/luddwichr/book-monkey/commit/0035a3e7d63fdbe8dd0195ceb5cb01b1dc440af5) and [commit](https://github.com/luddwichr/book-monkey/commit/36405c36821289215f69b685815982964bb52fa2) for initial setup and usage)
