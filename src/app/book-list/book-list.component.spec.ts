@@ -1,16 +1,35 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {BookListComponent} from './book-list.component';
 import {BookListItemComponent} from '../book-list-item/book-list-item.component';
-import {MockComponent, MockedComponent} from 'ng-mocks';
+import {MockComponent} from 'ng-mocks';
 import {By} from '@angular/platform-browser';
 import {Book} from '../shared/book';
+import {BookStoreService} from '../shared/book-store.service';
+import {Mock} from 'ts-mockery';
 
 describe('BookListComponent', () => {
   let component: BookListComponent;
   let fixture: ComponentFixture<BookListComponent>;
+  let bookStoreServiceMock: BookStoreService;
+  const books: Book[] = [
+    {
+      isbn: '123',
+      title: 'someTitle',
+      authors: ['A', 'B'],
+      published: new Date(2019, 4, 30)
+    },
+    {
+      isbn: '456',
+      title: 'someOtherTitle',
+      authors: ['D'],
+      published: new Date(2019, 1, 1)
+    }
+  ];
 
   beforeEach(async(() => {
+    bookStoreServiceMock = Mock.of<BookStoreService>({getAll: () => books});
     TestBed.configureTestingModule({
+      providers: [{provide: BookStoreService, useValue: bookStoreServiceMock}],
       declarations: [BookListComponent, MockComponent(BookListItemComponent)]
     }).compileComponents();
   }));
