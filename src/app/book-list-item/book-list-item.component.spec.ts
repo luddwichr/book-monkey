@@ -1,5 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-
+import {async, TestBed} from '@angular/core/testing';
 import {BookListItemComponent} from './book-list-item.component';
 import {MockRender} from 'ng-mocks';
 import {By} from '@angular/platform-browser';
