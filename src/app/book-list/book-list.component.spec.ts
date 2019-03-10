@@ -6,6 +6,7 @@ import {By} from '@angular/platform-browser';
 import {Book} from '../shared/book';
 import {BookStoreService} from '../shared/book-store.service';
 import {Mock} from 'ts-mockery';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('BookListComponent', () => {
   let component: BookListComponent;
@@ -30,7 +31,8 @@ describe('BookListComponent', () => {
     bookStoreServiceMock = Mock.of<BookStoreService>({getAll: () => books});
     TestBed.configureTestingModule({
       providers: [{provide: BookStoreService, useValue: bookStoreServiceMock}],
-      declarations: [BookListComponent, MockComponent(BookListItemComponent)]
+      declarations: [BookListComponent, MockComponent(BookListItemComponent)],
+      imports: [RouterTestingModule]
     }).compileComponents();
   }));
 
@@ -51,14 +53,5 @@ describe('BookListComponent', () => {
     expect(bookListItems).toHaveLength(2);
     expect(bookListItems[0].book).toBe(component.books[0]);
     expect(bookListItems[1].book).toBe(component.books[1]);
-  });
-
-  it('should emit an event if a book list item was clicked on, with the book as payload', done => {
-    component.showDetailsEvent.subscribe((book: Book) => {
-      expect(book).toBe(component.books[0]);
-      done();
-    });
-    fixture.debugElement.queryAll(By.css('bm-book-list-item'))[0].triggerEventHandler('click', null);
-    fixture.detectChanges();
   });
 });

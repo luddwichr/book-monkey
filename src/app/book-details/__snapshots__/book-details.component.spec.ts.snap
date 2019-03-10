@@ -2,7 +2,7 @@
 
 exports[`BookDetailsComponent should render the details for a book 1`] = `
 <div
-  id="root2"
+  id="root1"
   ng-version="7.2.8"
 >
   
@@ -123,10 +123,5 @@ exports[`BookDetailsComponent should render the details for a book 1`] = `
       </div>
     </div>
   </div>
-  <button
-    class="ui red button"
-  >
-    Zurück zur Buchliste
-  </button>
 </div>
 `;
