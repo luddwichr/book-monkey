@@ -3,6 +3,7 @@ import {Book} from '../shared/book';
 import {BookStoreService} from '../shared/book-store.service';
 import {ActivatedRoute} from '@angular/router';
 
+const isbnParameter = 'isbn';
 @Component({
   selector: 'bm-book-details',
   templateUrl: './book-details.component.html',
@@ -15,7 +16,7 @@ export class BookDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     const params = this.route.snapshot.params;
-    this.book = this.bookStoreService.getByIsbn(params['isbn']);
+    this.book = this.bookStoreService.getByIsbn(params[isbnParameter]);
   }
 
   getRating(num: number) {
