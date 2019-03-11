@@ -5,7 +5,7 @@ import {MockComponent} from 'ng-mocks';
 import {By} from '@angular/platform-browser';
 import {Book} from '../shared/book';
 import {BookStoreService} from '../shared/book-store.service';
-import {Mock} from 'ts-mockery';
+import {mock, when, instance, verify} from 'ts-mockito';
 import {RouterTestingModule} from '@angular/router/testing';
 
 describe('BookListComponent', () => {
@@ -28,9 +28,10 @@ describe('BookListComponent', () => {
   ];
 
   beforeEach(async(() => {
-    bookStoreServiceMock = Mock.of<BookStoreService>({getAll: () => books});
+    bookStoreServiceMock = mock(BookStoreService);
+    when(bookStoreServiceMock.getAll()).thenReturn(books);
     TestBed.configureTestingModule({
-      providers: [{provide: BookStoreService, useValue: bookStoreServiceMock}],
+      providers: [{provide: BookStoreService, useValue: instance(bookStoreServiceMock)}],
       declarations: [BookListComponent, MockComponent(BookListItemComponent)],
       imports: [RouterTestingModule]
     }).compileComponents();
@@ -47,10 +48,12 @@ describe('BookListComponent', () => {
   });
 
   it('should contain two book list items, each for one of the books', () => {
+    verify(bookStoreServiceMock.getAll()).called();
     const bookListItems = fixture.debugElement
       .queryAll(By.css('bm-book-list-item'))
       .map(element => element.componentInstance as BookListItemComponent);
     expect(bookListItems).toHaveLength(2);
+    console.log(bookListItems[0]);
     expect(bookListItems[0].book).toBe(component.books[0]);
     expect(bookListItems[1].book).toBe(component.books[1]);
   });
