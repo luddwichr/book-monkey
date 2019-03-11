@@ -53,7 +53,6 @@ describe('BookListComponent', () => {
       .queryAll(By.css('bm-book-list-item'))
       .map(element => element.componentInstance as BookListItemComponent);
     expect(bookListItems).toHaveLength(2);
-    console.log(bookListItems[0]);
     expect(bookListItems[0].book).toBe(component.books[0]);
     expect(bookListItems[1].book).toBe(component.books[1]);
   });
