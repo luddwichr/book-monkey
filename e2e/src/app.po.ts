@@ -5,7 +5,7 @@ export class AppPage {
     return browser.get(browser.baseUrl) as Promise<any>;
   }
 
-  getTitleText() {
-    return element(by.css('bm-root h1')).getText() as Promise<string>;
+  clickHomeMenuItem() {
+    return element(by.id('home')).click();
   }
 }

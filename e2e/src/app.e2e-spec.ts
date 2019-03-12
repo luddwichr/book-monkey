@@ -8,9 +8,10 @@ describe('workspace-project App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
-    page.navigateTo();
-    expect(page.getTitleText()).toEqual('Welcome to BookMonkey!');
+  it('should navigate to /home when clicking on home menu item', async () => {
+    await page.navigateTo();
+    await page.clickHomeMenuItem();
+    expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/home');
   });
 
   afterEach(async () => {
