@@ -1,7 +1,7 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {ActivatedRoute} from '@angular/router';
-import {ActivatedRouteStub} from 'src/testing';
-import {instance, mock, when} from 'ts-mockito';
+import {ActivatedRouteStub, asyncData} from 'src/testing';
+import {anyString, instance, mock, when} from 'ts-mockito';
 import {BookStoreService} from '../shared/book-store.service';
 import {BookDetailsComponent} from './book-details.component';
 
@@ -11,7 +11,7 @@ describe('BookDetailsComponent', () => {
     TestBed.configureTestingModule({
       providers: [
         {provide: BookStoreService, useValue: instance(bookStoreServiceMock)},
-        {provide: ActivatedRoute, useValue: new ActivatedRouteStub()}
+        {provide: ActivatedRoute, useValue: new ActivatedRouteStub({isbn: '123'})}
       ],
       declarations: [BookDetailsComponent]
     }).compileComponents();
@@ -24,7 +24,7 @@ describe('BookDetailsComponent', () => {
     return {fixture, component, activatedRouteStub};
   }
 
-  it('should render the details for a book', () => {
+  it('should render the details for a book', fakeAsync(() => {
     const {fixture, component, activatedRouteStub} = setup();
     const book = {
       isbn: '123',
@@ -36,19 +36,25 @@ describe('BookDetailsComponent', () => {
       subtitle: 'someSubTitle',
       description: 'someDescription'
     };
-    activatedRouteStub.setParamMap({isbn: book.isbn});
-    when(bookStoreServiceMock.getByIsbn(book.isbn)).thenReturn(book);
+    when(bookStoreServiceMock.getByIsbn(book.isbn)).thenReturn(asyncData(book));
 
+    fixture.detectChanges();
+    tick();
     fixture.detectChanges();
 
     expect(component.book).toBe(book);
     expect(fixture.nativeElement).toMatchSnapshot();
-  });
+  }));
 
-  it('should not render anything if no book is given', () => {
+  it('should not render anything if no book is given', fakeAsync(() => {
     const {fixture, component} = setup();
+    when(bookStoreServiceMock.getByIsbn(anyString())).thenReturn(asyncData(null));
+
     fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+
     expect(component.book).toBeNull();
     expect(fixture.nativeElement.textContent).toBeFalsy();
-  });
+  }));
 });

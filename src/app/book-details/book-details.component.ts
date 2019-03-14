@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {flatMap} from 'rxjs/operators';
 import {Book} from '../shared/book';
 import {BookStoreService} from '../shared/book-store.service';
 
@@ -15,9 +16,11 @@ export class BookDetailsComponent implements OnInit {
   constructor(private bookStoreService: BookStoreService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(paramMap => {
-      this.book = this.bookStoreService.getByIsbn(paramMap.get(isbnParameter));
-    });
+    this.route.paramMap
+      .pipe(flatMap(params => this.bookStoreService.getByIsbn(params.get(isbnParameter))))
+      .subscribe(book => {
+        this.book = book;
+      });
   }
 
   getRating(num: number) {
