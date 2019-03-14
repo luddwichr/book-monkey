@@ -3,7 +3,7 @@
 exports[`BookDetailsComponent should render the details for a book 1`] = `
 <div
   id="root0"
-  ng-version="7.2.8"
+  ng-version="7.2.9"
 >
   
   <div

@@ -1,7 +1,7 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {MockComponent} from 'ng-mocks';
-import {click, RouterLinkStubDirective} from 'src/testing';
+import {asyncData, click, RouterLinkStubDirective} from 'src/testing';
 import {instance, mock, verify, when} from 'ts-mockito';
 import {BookListItemComponent} from '../book-list-item/book-list-item.component';
 import {Book} from '../shared/book';
@@ -26,7 +26,7 @@ describe('BookListComponent', () => {
   ];
   beforeEach(async(() => {
     bookStoreServiceMock = mock(BookStoreService);
-    when(bookStoreServiceMock.getAll()).thenReturn(books);
+    when(bookStoreServiceMock.getAll()).thenReturn(asyncData(books));
     TestBed.configureTestingModule({
       providers: [{provide: BookStoreService, useValue: instance(bookStoreServiceMock)}],
       declarations: [BookListComponent, MockComponent(BookListItemComponent), RouterLinkStubDirective]
@@ -37,26 +37,28 @@ describe('BookListComponent', () => {
     const fixture: ComponentFixture<BookListComponent> = TestBed.createComponent(BookListComponent);
     const component: BookListComponent = fixture.componentInstance;
     fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
     return {fixture, component};
   }
 
-  it('should retrieve all books from the book store service', () => {
+  it('should retrieve all books from the book store service', fakeAsync(() => {
     const {component} = setup();
     expect(component.books).toBe(books);
     verify(bookStoreServiceMock.getAll()).called();
-  });
+  }));
 
-  it('should display a book list item for each book', () => {
-    const {fixture} = setup();
+  it('should display a book list item for each book', fakeAsync(() => {
+    const {fixture, component} = setup();
     const bookListItems = fixture.debugElement
       .queryAll(By.directive(BookListItemComponent))
       .map(element => element.componentInstance as BookListItemComponent);
     expect(bookListItems).toHaveLength(2);
     expect(bookListItems[0].book).toBe(books[0]);
     expect(bookListItems[1].book).toBe(books[1]);
-  });
+  }));
 
-  it('should navigate to the book details when clicking on a book list item', () => {
+  it('should navigate to the book details when clicking on a book list item', fakeAsync(() => {
     const {fixture} = setup();
     const links = fixture.debugElement.queryAll(By.directive(RouterLinkStubDirective));
     const routerLinks = links.map(link => link.injector.get(RouterLinkStubDirective));
@@ -66,5 +68,5 @@ describe('BookListComponent', () => {
     click(links[0]);
     fixture.detectChanges();
     expect(routerLinks[0].navigatedTo).toEqual('123');
-  });
+  }));
 });

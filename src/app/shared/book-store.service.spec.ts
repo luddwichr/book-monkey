@@ -11,19 +11,21 @@ describe('BookStoreService', () => {
     bookStoreService = TestBed.get(BookStoreService);
   });
 
-  it('should be created', () => {
-    expect(bookStoreService).toBeTruthy();
-  });
-
   describe('getAll', () => {
-    it('should return two books', () => {
-      expect(bookStoreService.getAll()).toHaveLength(2);
+    it('should return two books', done => {
+      bookStoreService.getAll().subscribe(allBooks => {
+        expect(allBooks).toHaveLength(2);
+        done();
+      });
     });
   });
 
   describe('getByIsbn', () => {
-    it('should return the book matching the given isbn', () => {
-      expect(bookStoreService.getByIsbn('9783864906466').isbn).toEqual('9783864906466');
+    it('should return the book matching the given isbn', done => {
+      bookStoreService.getByIsbn('9783864906466').subscribe(book => {
+        expect(book.isbn).toEqual('9783864906466');
+        done();
+      });
     });
   });
 });

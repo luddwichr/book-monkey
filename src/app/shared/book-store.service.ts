@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {Observable, of} from 'rxjs';
 import {Book} from './book';
 
 @Injectable({
@@ -42,11 +43,11 @@ export class BookStoreService {
     ];
   }
 
-  getAll(): Book[] {
-    return this.books;
+  getAll(): Observable<Book[]> {
+    return of(this.books);
   }
 
-  getByIsbn(isbn: string): Book {
-    return this.books.find(book => book.isbn === isbn);
+  getByIsbn(isbn: string): Observable<Book> {
+    return of(this.books.find(book => book.isbn === isbn));
   }
 }
