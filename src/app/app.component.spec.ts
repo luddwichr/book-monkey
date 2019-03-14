@@ -1,22 +1,29 @@
-import {async, ComponentFixture, TestBed, fakeAsync, tick} from '@angular/core/testing';
-import {AppComponent} from './app.component';
-import {MockComponent} from 'ng-mocks';
-import {RouterTestingModule} from '@angular/router/testing';
+import {DebugElement} from '@angular/core';
+import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
-import {HomeComponent} from './home/home.component';
-import {RouteTester, DummyComponent} from './route-tester';
-import {BookListComponent} from './book-list/book-list.component';
+import {RouterTestingModule} from '@angular/router/testing';
+import {DummyComponent, RouteTester as RoutingTester} from 'src/testing';
+import {AppComponent} from './app.component';
+
+class AppComponentPage {
+  constructor(private fixture: ComponentFixture<AppComponent>) {}
+
+  getHomeMenuItem(): DebugElement {
+    return this.fixture.debugElement.query(By.css('#home'));
+  }
+
+  getBooksMenuItem(): DebugElement {
+    return this.fixture.debugElement.query(By.css('#books'));
+  }
+}
 
 describe('AppComponent', () => {
-  let component: AppComponent;
-  let fixture: ComponentFixture<AppComponent>;
-  let routeTester: RouteTester;
-  const activeLinkClass = 'active';
+  let routeTester: RoutingTester;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AppComponent, DummyComponent],
-      providers: [RouteTester],
+      providers: [RoutingTester],
       imports: [
         RouterTestingModule.withRoutes([
           {
@@ -30,42 +37,53 @@ describe('AppComponent', () => {
         ])
       ]
     }).compileComponents();
-    routeTester = TestBed.get(RouteTester);
+    routeTester = TestBed.get(RoutingTester);
   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(AppComponent);
-    component = fixture.componentInstance;
+  function setup() {
+    const fixture: ComponentFixture<AppComponent> = TestBed.createComponent(AppComponent);
+    const component: AppComponent = fixture.componentInstance;
+    const page = new AppComponentPage(fixture);
     fixture.detectChanges();
-  });
+    return {page, component};
+  }
 
   it('should create', () => {
+    const {component} = setup();
     expect(component).toBeTruthy();
   });
 
   describe('Home navigation', () => {
     it('should route to /home', () => {
-      const href = fixture.debugElement.query(By.css('#home')).nativeElement.getAttribute('href');
-      expect(href).toEqual('/home');
+      const {page} = setup();
+      const routerLink = routeTester.getRouterLink(page.getHomeMenuItem());
+      expect(routerLink.href).toEqual('/home');
     });
+
     it('should be marked as active if on /home', fakeAsync(() => {
-      expect(fixture.debugElement.query(By.css('#home')).classes[activeLinkClass]).toBeFalsy();
+      const {page} = setup();
+      const routerLinkActive = routeTester.getRouterLinkActive(page.getHomeMenuItem());
+      expect(routerLinkActive.isActive).toBeFalsy();
       routeTester.navigateTo('home');
       tick();
-      expect(fixture.debugElement.query(By.css('#home')).classes[activeLinkClass]).toBeTruthy();
+      expect(routerLinkActive.isActive).toBeTruthy();
     }));
   });
 
   describe('Books navigation', () => {
     it('should route to /books', () => {
-      const href = fixture.debugElement.query(By.css('#books')).nativeElement.getAttribute('href');
-      expect(href).toEqual('/books');
+      const {page} = setup();
+      const routerLink = routeTester.getRouterLink(page.getBooksMenuItem());
+      expect(routerLink.href).toEqual('/books');
     });
+
     it('should be marked as active if on /books', fakeAsync(() => {
-      expect(fixture.debugElement.query(By.css('#books')).classes[activeLinkClass]).toBeFalsy();
+      const {page} = setup();
+      const routerLinkActive = routeTester.getRouterLinkActive(page.getBooksMenuItem());
+      expect(routerLinkActive.isActive).toBeFalsy();
       routeTester.navigateTo('books');
       tick();
-      expect(fixture.debugElement.query(By.css('#books')).classes[activeLinkClass]).toBeTruthy();
+      expect(routerLinkActive.isActive).toBeTruthy();
     }));
   });
 });

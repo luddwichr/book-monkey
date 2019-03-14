@@ -1,19 +1,19 @@
-import {TestBed, ComponentFixture, fakeAsync, tick} from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {RouterTestingModule} from '@angular/router/testing';
+import {RouteTester} from 'src/testing';
+import {instance, mock} from 'ts-mockito';
 import {routes} from './app-routing.module';
-import {HomeComponent} from './home/home.component';
-import {BookListComponent} from './book-list/book-list.component';
 import {AppComponent} from './app.component';
 import {BookDetailsComponent} from './book-details/book-details.component';
-import {BookStoreService} from './shared/book-store.service';
-import {instance, mock} from 'ts-mockito';
 import {BookListItemComponent} from './book-list-item/book-list-item.component';
-import {RouterTestingModule} from '@angular/router/testing';
-import {RouteTester} from './route-tester';
+import {BookListComponent} from './book-list/book-list.component';
+import {HomeComponent} from './home/home.component';
+import {BookStoreService} from './shared/book-store.service';
 
 describe('AppRoutingModule', () => {
   let routeTester: RouteTester;
   let fixture: ComponentFixture<AppComponent>;
-  beforeEach(fakeAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [AppComponent, HomeComponent, BookListComponent, BookListItemComponent, BookDetailsComponent],
       providers: [RouteTester, {provide: BookStoreService, useValue: instance(mock(BookStoreService))}],
@@ -26,7 +26,7 @@ describe('AppRoutingModule', () => {
       .overrideComponent(BookDetailsComponent, {set: {template: ''}})
       .createComponent(AppComponent);
     routeTester = TestBed.get(RouteTester);
-  }));
+  });
 
   it('should route `/home` to the home component', fakeAsync(() => {
     routeTester.navigateTo('/home');

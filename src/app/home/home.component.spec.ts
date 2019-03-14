@@ -1,32 +1,36 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-
-import {HomeComponent} from './home.component';
-import {RouterTestingModule} from '@angular/router/testing';
 import {By} from '@angular/platform-browser';
+import {click, RouterLinkStubDirective} from 'src/testing';
+import {HomeComponent} from './home.component';
 
 describe('HomeComponent', () => {
-  let component: HomeComponent;
-  let fixture: ComponentFixture<HomeComponent>;
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [HomeComponent],
-      imports: [RouterTestingModule]
+      declarations: [HomeComponent, RouterLinkStubDirective]
     }).compileComponents();
   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(HomeComponent);
-    component = fixture.componentInstance;
+  function setup() {
+    const fixture: ComponentFixture<HomeComponent> = TestBed.createComponent(HomeComponent);
+    const component: HomeComponent = fixture.componentInstance;
     fixture.detectChanges();
-  });
+    return {fixture, component};
+  }
 
   it('should create', () => {
+    const {component} = setup();
     expect(component).toBeTruthy();
   });
 
   it('should route to the books route if the back button is clicked', () => {
-    const href = fixture.debugElement.query(By.css('a')).nativeElement.getAttribute('href');
-    expect(href).toEqual('/books');
+    const {fixture} = setup();
+    const link = fixture.debugElement.query(By.directive(RouterLinkStubDirective));
+    const routerLink = link.injector.get(RouterLinkStubDirective);
+
+    expect(routerLink.navigatedTo).toBeNull();
+
+    click(link);
+    fixture.detectChanges();
+    expect(routerLink.navigatedTo).toEqual('../books');
   });
 });

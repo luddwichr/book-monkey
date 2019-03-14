@@ -1,16 +1,14 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {BookListComponent} from './book-list.component';
-import {BookListItemComponent} from '../book-list-item/book-list-item.component';
-import {MockComponent} from 'ng-mocks';
 import {By} from '@angular/platform-browser';
+import {MockComponent} from 'ng-mocks';
+import {click, RouterLinkStubDirective} from 'src/testing';
+import {instance, mock, verify, when} from 'ts-mockito';
+import {BookListItemComponent} from '../book-list-item/book-list-item.component';
 import {Book} from '../shared/book';
 import {BookStoreService} from '../shared/book-store.service';
-import {mock, when, instance, verify} from 'ts-mockito';
-import {RouterTestingModule} from '@angular/router/testing';
+import {BookListComponent} from './book-list.component';
 
 describe('BookListComponent', () => {
-  let component: BookListComponent;
-  let fixture: ComponentFixture<BookListComponent>;
   let bookStoreServiceMock: BookStoreService;
   const books: Book[] = [
     {
@@ -26,34 +24,47 @@ describe('BookListComponent', () => {
       published: new Date(2019, 1, 1)
     }
   ];
-
   beforeEach(async(() => {
     bookStoreServiceMock = mock(BookStoreService);
     when(bookStoreServiceMock.getAll()).thenReturn(books);
     TestBed.configureTestingModule({
       providers: [{provide: BookStoreService, useValue: instance(bookStoreServiceMock)}],
-      declarations: [BookListComponent, MockComponent(BookListItemComponent)],
-      imports: [RouterTestingModule]
+      declarations: [BookListComponent, MockComponent(BookListItemComponent), RouterLinkStubDirective]
     }).compileComponents();
   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(BookListComponent);
-    component = fixture.componentInstance;
+  function setup() {
+    const fixture: ComponentFixture<BookListComponent> = TestBed.createComponent(BookListComponent);
+    const component: BookListComponent = fixture.componentInstance;
     fixture.detectChanges();
-  });
+    return {fixture, component};
+  }
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should contain two book list items, each for one of the books', () => {
+  it('should retrieve all books from the book store service', () => {
+    const {component} = setup();
+    expect(component.books).toBe(books);
     verify(bookStoreServiceMock.getAll()).called();
+  });
+
+  it('should display a book list item for each book', () => {
+    const {fixture} = setup();
     const bookListItems = fixture.debugElement
-      .queryAll(By.css('bm-book-list-item'))
+      .queryAll(By.directive(BookListItemComponent))
       .map(element => element.componentInstance as BookListItemComponent);
     expect(bookListItems).toHaveLength(2);
-    expect(bookListItems[0].book).toBe(component.books[0]);
-    expect(bookListItems[1].book).toBe(component.books[1]);
+    expect(bookListItems[0].book).toBe(books[0]);
+    expect(bookListItems[1].book).toBe(books[1]);
+  });
+
+  it('should navigate to the book details when clicking on a book list item', () => {
+    const {fixture} = setup();
+    const links = fixture.debugElement.queryAll(By.directive(RouterLinkStubDirective));
+    const routerLinks = links.map(link => link.injector.get(RouterLinkStubDirective));
+
+    routerLinks.forEach(routerLink => expect(routerLink.navigatedTo).toBeNull());
+
+    click(links[0]);
+    fixture.detectChanges();
+    expect(routerLinks[0].navigatedTo).toEqual('123');
   });
 });
