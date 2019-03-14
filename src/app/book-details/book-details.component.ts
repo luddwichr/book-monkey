@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 import {Book} from '../shared/book';
 import {BookStoreService} from '../shared/book-store.service';
-import {ActivatedRoute} from '@angular/router';
 
 const isbnParameter = 'isbn';
 @Component({
@@ -15,8 +15,9 @@ export class BookDetailsComponent implements OnInit {
   constructor(private bookStoreService: BookStoreService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    const params = this.route.snapshot.params;
-    this.book = this.bookStoreService.getByIsbn(params[isbnParameter]);
+    this.route.paramMap.subscribe(paramMap => {
+      this.book = this.bookStoreService.getByIsbn(paramMap.get(isbnParameter));
+    });
   }
 
   getRating(num: number) {

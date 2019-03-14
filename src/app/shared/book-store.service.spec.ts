@@ -1,12 +1,13 @@
 import {TestBed} from '@angular/core/testing';
-
 import {BookStoreService} from './book-store.service';
 
 describe('BookStoreService', () => {
   let bookStoreService: BookStoreService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [BookStoreService]
+    });
     bookStoreService = TestBed.get(BookStoreService);
   });
 

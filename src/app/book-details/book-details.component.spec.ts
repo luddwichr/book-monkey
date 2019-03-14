@@ -1,19 +1,32 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {ActivatedRoute} from '@angular/router';
-import {BookDetailsComponent} from './book-details.component';
+import {ActivatedRouteStub} from 'src/testing';
+import {instance, mock, when} from 'ts-mockito';
 import {BookStoreService} from '../shared/book-store.service';
-import {mock, verify, when, instance} from 'ts-mockito';
-import {of} from 'rxjs';
+import {BookDetailsComponent} from './book-details.component';
 
 describe('BookDetailsComponent', () => {
-  let component: BookDetailsComponent;
-  let fixture: ComponentFixture<BookDetailsComponent>;
-  let bookStoreServiceMock: BookStoreService;
-  const bookId = '123';
-
+  const bookStoreServiceMock: BookStoreService = mock(BookStoreService);
   beforeEach(async(() => {
-    bookStoreServiceMock = mock(BookStoreService);
-    when(bookStoreServiceMock.getByIsbn(bookId)).thenReturn({
+    TestBed.configureTestingModule({
+      providers: [
+        {provide: BookStoreService, useValue: instance(bookStoreServiceMock)},
+        {provide: ActivatedRoute, useValue: new ActivatedRouteStub()}
+      ],
+      declarations: [BookDetailsComponent]
+    }).compileComponents();
+  }));
+
+  function setup() {
+    const fixture: ComponentFixture<BookDetailsComponent> = TestBed.createComponent(BookDetailsComponent);
+    const component: BookDetailsComponent = fixture.componentInstance;
+    const activatedRouteStub: ActivatedRouteStub = TestBed.get(ActivatedRoute);
+    return {fixture, component, activatedRouteStub};
+  }
+
+  it('should render the details for a book', () => {
+    const {fixture, component, activatedRouteStub} = setup();
+    const book = {
       isbn: '123',
       title: 'someTitle',
       authors: ['A', 'B'],
@@ -22,37 +35,20 @@ describe('BookDetailsComponent', () => {
       thumbnails: [{url: 'someUrl', title: 'someImageTitle'}],
       subtitle: 'someSubTitle',
       description: 'someDescription'
-    });
-    TestBed.configureTestingModule({
-      providers: [
-        {provide: BookStoreService, useValue: instance(bookStoreServiceMock)},
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: {
-              params: {
-                isbn: bookId
-              }
-            }
-          }
-        }
-      ],
-      declarations: [BookDetailsComponent]
-    }).compileComponents();
-  }));
+    };
+    activatedRouteStub.setParamMap({isbn: book.isbn});
+    when(bookStoreServiceMock.getByIsbn(book.isbn)).thenReturn(book);
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(BookDetailsComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
-  });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should render the details for a book', () => {
-    verify(bookStoreServiceMock.getByIsbn(bookId)).called();
+    expect(component.book).toBe(book);
     expect(fixture.nativeElement).toMatchSnapshot();
+  });
+
+  it('should not render anything if no book is given', () => {
+    const {fixture, component} = setup();
+    fixture.detectChanges();
+    expect(component.book).toBeNull();
+    expect(fixture.nativeElement.textContent).toBeFalsy();
   });
 });
