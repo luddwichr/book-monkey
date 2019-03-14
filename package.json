@@ -44,7 +44,7 @@
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
     "jest": "^24.1.0",
-    "jest-preset-angular": "^6.0.2",
+    "jest-preset-angular": "^7.0.1",
     "ng-mocks": "^7.6.0",
     "prettier": "^1.16.4",
     "pretty-quick": "^1.10.0",
