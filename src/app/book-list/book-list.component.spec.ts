@@ -49,7 +49,7 @@ describe('BookListComponent', () => {
   }));
 
   it('should display a book list item for each book', fakeAsync(() => {
-    const {fixture, component} = setup();
+    const {fixture} = setup();
     const bookListItems = fixture.debugElement
       .queryAll(By.directive(BookListItemComponent))
       .map(element => element.componentInstance as BookListItemComponent);

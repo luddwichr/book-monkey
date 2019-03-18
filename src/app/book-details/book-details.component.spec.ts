@@ -20,12 +20,11 @@ describe('BookDetailsComponent', () => {
   function setup() {
     const fixture: ComponentFixture<BookDetailsComponent> = TestBed.createComponent(BookDetailsComponent);
     const component: BookDetailsComponent = fixture.componentInstance;
-    const activatedRouteStub: ActivatedRouteStub = TestBed.get(ActivatedRoute);
-    return {fixture, component, activatedRouteStub};
+    return {fixture, component};
   }
 
   it('should render the details for a book', fakeAsync(() => {
-    const {fixture, component, activatedRouteStub} = setup();
+    const {fixture, component} = setup();
     const book = {
       isbn: '123',
       title: 'someTitle',
