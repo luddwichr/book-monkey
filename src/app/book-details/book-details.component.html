@@ -1,4 +1,9 @@
 <div class="ui grid" *ngIf="book">
+  <div class="sixteen wide column right aligned">
+    <div class="ui tiny red labeled icon button" (click)="removeBook()" id="delete-button">
+      <i class="remove icon"></i>Buch löschen
+    </div>
+  </div>
   <div class="four wide column">
     <img class="ui large image" [src]="(book?.thumbnails)[0]?.url" [alt]="(book?.thumbnails)[0]?.title" />
   </div>
