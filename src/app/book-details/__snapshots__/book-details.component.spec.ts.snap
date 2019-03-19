@@ -10,6 +10,19 @@ exports[`BookDetailsComponent should render the details for a book 1`] = `
     class="ui grid"
   >
     <div
+      class="sixteen wide column right aligned"
+    >
+      <div
+        class="ui tiny red labeled icon button"
+        id="delete-button"
+      >
+        <i
+          class="remove icon"
+        />
+        Buch löschen 
+      </div>
+    </div>
+    <div
       class="four wide column"
     >
       <img
