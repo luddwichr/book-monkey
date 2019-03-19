@@ -61,12 +61,34 @@ describe('BookListComponent', () => {
   it('should navigate to the book details when clicking on a book list item', fakeAsync(() => {
     const {fixture} = setup();
     const links = fixture.debugElement.queryAll(By.directive(RouterLinkStubDirective));
-    const routerLinks = links.map(link => link.injector.get(RouterLinkStubDirective));
 
-    routerLinks.forEach(routerLink => expect(routerLink.navigatedTo).toBeNull());
+    links.forEach(link => {
+      const routerLink = link.injector.get(RouterLinkStubDirective);
+      expect(routerLink.navigatedTo).toBeNull();
+      click(link);
+      fixture.detectChanges();
+      expect(routerLink.navigatedTo).toEqual(routerLink.linkParams);
+    });
+  }));
 
-    click(links[0]);
+  it('should display a note that books are being loaded until the books are received', fakeAsync(() => {
+    const fixture = TestBed.createComponent(BookListComponent);
     fixture.detectChanges();
-    expect(routerLinks[0].navigatedTo).toEqual('123');
+
+    expect(fixture.nativeElement.innerHTML).toContain('Daten werden geladen...');
+    tick();
+    fixture.detectChanges();
+    expect(fixture.nativeElement.innerHTML).not.toContain('Daten werden geladen...');
+  }));
+
+  it('should display a note that no books are available if no books were received', fakeAsync(() => {
+    when(bookStoreServiceMock.getAll()).thenReturn(asyncData([]));
+    const {fixture} = setup();
+    expect(fixture.nativeElement.innerHTML).toContain('Es wurden noch keine Bücher eingetragen');
+  }));
+
+  it('should not display a note that no books are available if books were received', fakeAsync(() => {
+    const {fixture} = setup();
+    expect(fixture.nativeElement.innerHTML).not.toContain('Es wurden noch keine Bücher eingetragen');
   }));
 });
