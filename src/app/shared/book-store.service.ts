@@ -1,53 +1,56 @@
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
+import {catchError, map} from 'rxjs/operators';
 import {Book} from './book';
+import {BookFactory} from './book-factory';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookStoreService {
-  private readonly books: Book[];
+  private readonly apiBase = 'https://book-monkey2-api.angular-buch.com';
+  private readonly httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
 
-  constructor() {
-    this.books = [
-      {
-        isbn: '9783864906466',
-        title: 'Angular',
-        authors: ['Ferdinand Malcher', 'Johannes Hoppe', 'Danny Koppenhagen'],
-        published: new Date(2019, 4, 30),
-        subtitle: 'Grundlagen, fortgeschrittene Themen und Best Practices - mit NativeScript und NgRx',
-        rating: 5,
-        thumbnails: [
-          {
-            url: 'https://api3.angular-buch.com/images/angular_auflage2.jpg',
-            title: 'Buchcover'
-          }
-        ],
-        description: 'Die Autoren führen Sie mit einem anspruchsvollen Beispielprojekt durch die Welt von Angular...'
-      },
-      {
-        isbn: '9783864903274',
-        title: 'React',
-        authors: ['Oliver Zeigermann', 'Nils Hartmann'],
-        published: new Date(2016, 6, 17),
-        subtitle: 'Die praktische Einführung in React, React Router und Redux',
-        rating: 3,
-        thumbnails: [
-          {
-            url: 'https://api3.angular-buch.com/images/react.jpg',
-            title: 'Buchcover'
-          }
-        ],
-        description: 'React ist ein JavaScript-Framework zur Entwicklung von Benutzeroberflächen...'
-      }
-    ];
-  }
+  constructor(private http: HttpClient) {}
 
   getAll(): Observable<Book[]> {
-    return of(this.books);
+    return this.http.get(`${this.apiBase}/books`).pipe(
+      map((rawBooks: any[]) => rawBooks.map(rawBook => BookFactory.createFromObject(rawBook))),
+      catchError(this.errorHandler)
+    );
   }
 
   getByIsbn(isbn: string): Observable<Book> {
-    return of(this.books.find(book => book.isbn === isbn));
+    return this.http.get(`${this.apiBase}/book/${isbn}`).pipe(
+      map((rawBook: any) => BookFactory.createFromObject(rawBook)),
+      catchError(this.errorHandler)
+    );
+  }
+
+  create(book: Book): Observable<Book> {
+    return this.http.post(`${this.apiBase}/book`, JSON.stringify(book), this.httpOptions).pipe(
+      map((rawBook: any) => BookFactory.createFromObject(rawBook)),
+      catchError(this.errorHandler)
+    );
+  }
+
+  update(book: Book): Observable<Book> {
+    return this.http.put(`${this.apiBase}/book/${book.isbn}`, JSON.stringify(book), this.httpOptions).pipe(
+      map((rawBook: any) => BookFactory.createFromObject(rawBook)),
+      catchError(this.errorHandler)
+    );
+  }
+
+  remove(book: Book): Observable<{}> {
+    return this.http.delete(`${this.apiBase}/book/${book.isbn}`).pipe(catchError(this.errorHandler));
+  }
+
+  private errorHandler(error: Error): Observable<any> {
+    return throwError(error);
   }
 }
