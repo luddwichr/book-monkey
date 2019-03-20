@@ -189,4 +189,36 @@ describe('BookStoreService', () => {
         .error(expectedError);
     });
   });
+
+  describe('search', () => {
+    it('should return all books from the Book Monkey API that match the given search term', done => {
+      const {bookStoreService, httpMock} = setup();
+      const expectedMatchingBooks = [BookFactory.createEmptyBook(), BookFactory.createEmptyBook()];
+      bookStoreService.search('test').subscribe((matchingBooks: Book[]) => {
+        expect(matchingBooks).toEqual(expectedMatchingBooks);
+        done();
+      });
+
+      httpMock
+        .expectOne({url: 'https://book-monkey2-api.angular-buch.com/books/search/test', method: 'GET'})
+        .flush(expectedMatchingBooks);
+    });
+
+    it('should throw an error if the API call failed', done => {
+      const {bookStoreService, httpMock} = setup();
+      const expectedError = new ErrorEvent('Network error', {message: 'Some Error'});
+
+      bookStoreService.search('test').subscribe(
+        () => done.fail(),
+        (error: HttpErrorResponse) => {
+          expect(error.error).toBe(expectedError);
+          done();
+        }
+      );
+
+      httpMock
+        .expectOne({url: 'https://book-monkey2-api.angular-buch.com/books/search/test', method: 'GET'})
+        .error(expectedError);
+    });
+  });
 });

@@ -7,9 +7,17 @@ import {BookDetailsComponent} from './book-details/book-details.component';
 import {BookListItemComponent} from './book-list-item/book-list-item.component';
 import {BookListComponent} from './book-list/book-list.component';
 import {HomeComponent} from './home/home.component';
+import {SearchComponent} from './search/search.component';
 
 @NgModule({
-  declarations: [AppComponent, BookListComponent, BookListItemComponent, BookDetailsComponent, HomeComponent],
+  declarations: [
+    AppComponent,
+    BookListComponent,
+    BookListItemComponent,
+    BookDetailsComponent,
+    HomeComponent,
+    SearchComponent
+  ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent]

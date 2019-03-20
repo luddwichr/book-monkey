@@ -1,12 +1,22 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
+import {ActivatedRoute, Router} from '@angular/router';
+import {MockComponent} from 'ng-mocks';
 import {click, RouterLinkStubDirective} from 'src/testing';
+import {instance, mock} from 'ts-mockito';
+import {SearchComponent} from '../search/search.component';
 import {HomeComponent} from './home.component';
 
 describe('HomeComponent', () => {
+  const activatedRouteMock: ActivatedRoute = mock(ActivatedRoute);
+  const routerMock: Router = mock(Router);
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [HomeComponent, RouterLinkStubDirective]
+      providers: [
+        {provide: ActivatedRoute, useValue: instance(activatedRouteMock)},
+        {provide: Router, useValue: instance(routerMock)}
+      ],
+      declarations: [HomeComponent, MockComponent(SearchComponent), RouterLinkStubDirective]
     }).compileComponents();
   }));
 
