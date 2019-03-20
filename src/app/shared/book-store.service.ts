@@ -50,6 +50,13 @@ export class BookStoreService {
     return this.http.delete(`${this.apiBase}/book/${book.isbn}`).pipe(catchError(this.errorHandler));
   }
 
+  search(searchTerm: string): Observable<Book[]> {
+    return this.http.get(`${this.apiBase}/books/search/${searchTerm}`).pipe(
+      map((rawBooks: any[]) => rawBooks.map(rawBook => BookFactory.createFromObject(rawBook))),
+      catchError(this.errorHandler)
+    );
+  }
+
   private errorHandler(error: Error): Observable<any> {
     return throwError(error);
   }

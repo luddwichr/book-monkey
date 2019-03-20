@@ -1,4 +1,12 @@
-<a routerLink="../books" class="ui red button">
-  Buchliste ansehen
-  <i class="right arrow icon"></i>
-</a>
+<div class="ui container two column grid">
+  <div class="ui container column">
+    <h1>Home</h1>
+    <p>Das ist der Book Monkey!</p>
+    <a routerLink="../books" class="ui red button">
+      Buchliste ansehen
+      <i class="right arrow icon"></i>
+    </a>
+  </div>
+
+  <bm-search class="column" (bookSelected)="bookSelected($event)"></bm-search>
+</div>
