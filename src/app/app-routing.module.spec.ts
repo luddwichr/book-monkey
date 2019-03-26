@@ -29,31 +29,19 @@ describe('AppRoutingModule', () => {
   });
 
   it('should route `/home` to the home component', fakeAsync(() => {
-    routeTester.navigateTo('/home');
-    tick();
-    expect(routeTester.getCurrentRoute()).toBe('/home');
-    expect(routeTester.getRenderedComponent(fixture)).toBeInstanceOf(HomeComponent);
+    validateRouting('/home', '/home', HomeComponent);
   }));
 
   it('should route `/` to the home component', fakeAsync(() => {
-    routeTester.navigateTo('/');
-    tick();
-    expect(routeTester.getCurrentRoute()).toBe('/home');
-    expect(routeTester.getRenderedComponent(fixture)).toBeInstanceOf(HomeComponent);
+    validateRouting('/', '/home', HomeComponent);
   }));
 
   it('should route `/books` to the book list component', fakeAsync(() => {
-    routeTester.navigateTo('/books');
-    tick();
-    expect(routeTester.getCurrentRoute()).toBe('/books');
-    expect(routeTester.getRenderedComponent(fixture)).toBeInstanceOf(BookListComponent);
+    validateRouting('/books', '/books', BookListComponent);
   }));
 
   it('should route `/books:isbn` to the book details component', fakeAsync(() => {
-    routeTester.navigateTo('/books/123');
-    tick();
-    expect(routeTester.getCurrentRoute()).toBe('/books/123');
-    expect(routeTester.getRenderedComponent(fixture)).toBeInstanceOf(BookDetailsComponent);
+    validateRouting('/books/123', '/books/123', BookDetailsComponent);
   }));
 
   it('should throw an error when routing to an unkown URL', fakeAsync(() => {
@@ -61,4 +49,11 @@ describe('AppRoutingModule', () => {
       expect(error.message).toEqual(`Cannot match any routes. URL Segment: 'unknown'`);
     });
   }));
+
+  function validateRouting(urlToNativateTo: string, expectedRoute: string, expectedComponent: any) {
+    routeTester.navigateTo(urlToNativateTo);
+    tick();
+    expect(routeTester.getCurrentRoute()).toBe(expectedRoute);
+    expect(routeTester.getRenderedComponent(fixture)).toBeInstanceOf(expectedComponent);
+  }
 });
