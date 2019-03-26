@@ -1,8 +1,8 @@
 import {HttpErrorResponse} from '@angular/common/http';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {TestBed} from '@angular/core/testing';
+import {BookBuilder} from 'src/testing';
 import {Book} from './book';
-import {BookFactory} from './book-factory';
 import {BookStoreService} from './book-store.service';
 
 describe('BookStoreService', () => {
@@ -26,7 +26,7 @@ describe('BookStoreService', () => {
 
   describe('getAll', () => {
     it('should return all books retrieved from the Book Monkey API', done => {
-      const expectedBooks = [BookFactory.createEmptyBook(), BookFactory.createEmptyBook()];
+      const expectedBooks = [BookBuilder.createSomeBook(), BookBuilder.createSomeBook()];
       const {bookStoreService, httpMock} = setup();
       bookStoreService.getAll().subscribe((allBooks: Book[]) => {
         expect(allBooks).toEqual(expectedBooks);
@@ -54,7 +54,7 @@ describe('BookStoreService', () => {
   describe('getByIsbn', () => {
     it('should return the book retrieved from the Book Monkey API for the given isbn', done => {
       const {bookStoreService, httpMock} = setup();
-      const expectedBook = BookFactory.createEmptyBook();
+      const expectedBook = BookBuilder.createSomeBook();
       bookStoreService.getByIsbn('123').subscribe(book => {
         expect(book).toEqual(expectedBook);
         done();
@@ -85,8 +85,8 @@ describe('BookStoreService', () => {
   describe('create', () => {
     it('should send a request to the Book Monkey API to create the given book', done => {
       const {bookStoreService, httpMock} = setup();
-      const bookToCreate = {...BookFactory.createEmptyBook(), isbn: '123'};
-      const expectedCreatedBook = BookFactory.createEmptyBook();
+      const bookToCreate = BookBuilder.createSomeBook();
+      const expectedCreatedBook = BookBuilder.createSomeBook();
       bookStoreService.create(bookToCreate).subscribe((createdBook: Book) => {
         expect(createdBook).toEqual(expectedCreatedBook);
         done();
@@ -107,7 +107,7 @@ describe('BookStoreService', () => {
       const {bookStoreService, httpMock} = setup();
       const expectedError = new ErrorEvent('Network error', {message: 'Some Error'});
 
-      bookStoreService.create(BookFactory.createEmptyBook()).subscribe(
+      bookStoreService.create(BookBuilder.createSomeBook()).subscribe(
         () => done.fail(),
         (error: HttpErrorResponse) => {
           expect(error.error).toBe(expectedError);
@@ -122,8 +122,8 @@ describe('BookStoreService', () => {
   describe('update', () => {
     it('should send a request to the Book Monkey API to update the given book', done => {
       const {bookStoreService, httpMock} = setup();
-      const bookToUpdate = {...BookFactory.createEmptyBook(), isbn: '123'};
-      const expectedUpdatedBook = BookFactory.createEmptyBook();
+      const bookToUpdate = BookBuilder.createSomeBookWithIsbn('123');
+      const expectedUpdatedBook = BookBuilder.createSomeBook();
       bookStoreService.update(bookToUpdate).subscribe((updatedBook: Book) => {
         expect(updatedBook).toEqual(expectedUpdatedBook);
         done();
@@ -142,7 +142,7 @@ describe('BookStoreService', () => {
 
     it('should throw an error if the API call failed', done => {
       const {bookStoreService, httpMock} = setup();
-      const bookToUpdate = {...BookFactory.createEmptyBook(), isbn: '123'};
+      const bookToUpdate = BookBuilder.createSomeBookWithIsbn('123');
       const expectedError = new ErrorEvent('Network error', {message: 'Some Error'});
 
       bookStoreService.update(bookToUpdate).subscribe(
@@ -162,7 +162,7 @@ describe('BookStoreService', () => {
   describe('remove', () => {
     it('should send a request to the Book Monkey API to remove the given book', done => {
       const {bookStoreService, httpMock} = setup();
-      const bookToRemove = {...BookFactory.createEmptyBook(), isbn: '123'};
+      const bookToRemove = BookBuilder.createSomeBookWithIsbn('123');
       bookStoreService.remove(bookToRemove).subscribe(response => {
         expect(response).toEqual({});
         done();
@@ -173,7 +173,7 @@ describe('BookStoreService', () => {
 
     it('should throw an error if the API call failed', done => {
       const {bookStoreService, httpMock} = setup();
-      const bookToRemove = {...BookFactory.createEmptyBook(), isbn: '123'};
+      const bookToRemove = BookBuilder.createSomeBookWithIsbn('123');
       const expectedError = new ErrorEvent('Network error', {message: 'Some Error'});
 
       bookStoreService.remove(bookToRemove).subscribe(
@@ -193,7 +193,7 @@ describe('BookStoreService', () => {
   describe('search', () => {
     it('should return all books from the Book Monkey API that match the given search term', done => {
       const {bookStoreService, httpMock} = setup();
-      const expectedMatchingBooks = [BookFactory.createEmptyBook(), BookFactory.createEmptyBook()];
+      const expectedMatchingBooks = [BookBuilder.createSomeBook(), BookBuilder.createSomeBook()];
       bookStoreService.search('test').subscribe((matchingBooks: Book[]) => {
         expect(matchingBooks).toEqual(expectedMatchingBooks);
         done();
