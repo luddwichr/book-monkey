@@ -1,10 +1,9 @@
 import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {delay} from 'rxjs/operators';
-import {asyncData} from 'src/testing';
+import {asyncData, BookBuilder} from 'src/testing';
 import {anyString, instance, mock, verify, when} from 'ts-mockito';
 import {Book} from '../shared/book';
-import {BookFactory} from '../shared/book-factory';
 import {BookStoreService} from '../shared/book-store.service';
 import {SearchComponent} from './search.component';
 
@@ -71,7 +70,7 @@ describe('SearchComponent', () => {
 
     expect(resultsDiv.classes.visible).toBeFalsy();
 
-    component.foundBooks = [BookFactory.createEmptyBook()];
+    component.foundBooks = [BookBuilder.createSomeBook()];
     fixture.detectChanges();
 
     expect(resultsDiv.classes.visible).toBeTruthy();
@@ -79,10 +78,7 @@ describe('SearchComponent', () => {
 
   it('should display the titles of found books', () => {
     const {component, fixture, page} = setup();
-    component.foundBooks = [
-      {...BookFactory.createEmptyBook(), title: 'A'},
-      {...BookFactory.createEmptyBook(), title: 'B'}
-    ];
+    component.foundBooks = [BookBuilder.createSomeBookWithTitle('A'), BookBuilder.createSomeBookWithTitle('B')];
     fixture.detectChanges();
 
     const titles = page.getBookTitles();
@@ -92,7 +88,7 @@ describe('SearchComponent', () => {
 
   it('should trigger an event on `bookSelected` with the selected book when clicking on a search result', done => {
     const {component, fixture, page} = setup();
-    const expectedBook = {...BookFactory.createEmptyBook(), title: 'A'};
+    const expectedBook = BookBuilder.createSomeBookWithTitle('A');
     component.foundBooks = [expectedBook];
     const clickEvent = new MouseEvent('click', {bubbles: true, cancelable: true});
     component.bookSelected.subscribe((book: Book) => {
@@ -109,7 +105,7 @@ describe('SearchComponent', () => {
   describe('Search', () => {
     it('should perform a search for 500ms after a search term was entered', fakeAsync(() => {
       const expectedSearchTerm = 'testSearchTerm';
-      const foundBooks = [BookFactory.createEmptyBook()];
+      const foundBooks = [BookBuilder.createSomeBook()];
       when(bookStoreServiceMock.search(expectedSearchTerm)).thenReturn(asyncData(foundBooks));
       const {component, page} = setup();
       page.triggerSearch(expectedSearchTerm);
@@ -129,13 +125,17 @@ describe('SearchComponent', () => {
 
     it('should dispatch search requests only if no new requests was dispatched 500ms afterwards', fakeAsync(() => {
       when(bookStoreServiceMock.search('b')).thenReturn(asyncData([]));
+      when(bookStoreServiceMock.search('c')).thenReturn(asyncData([]));
       const {page} = setup();
       page.triggerSearch('a');
       tick(300);
       page.triggerSearch('b');
       tick(500);
+      page.triggerSearch('c');
+      tick(500);
       verify(bookStoreServiceMock.search('a')).never();
       verify(bookStoreServiceMock.search('b')).called();
+      verify(bookStoreServiceMock.search('c')).called();
     }));
 
     it('should not dispatch new searches if the search term has not changed', fakeAsync(() => {

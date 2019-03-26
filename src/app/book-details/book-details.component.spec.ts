@@ -1,9 +1,8 @@
 import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ActivatedRouteStub, asyncData} from 'src/testing';
+import {ActivatedRouteStub, asyncData, BookBuilder} from 'src/testing';
 import {anyString, deepEqual, instance, mock, verify, when} from 'ts-mockito';
-import {BookFactory} from '../shared/book-factory';
 import {BookStoreService} from '../shared/book-store.service';
 import {BookDetailsComponent} from './book-details.component';
 
@@ -65,7 +64,7 @@ describe('BookDetailsComponent', () => {
 
   it('should request to delete the book if the delete button is clicked', fakeAsync(() => {
     const {fixture} = setup();
-    const book = {...BookFactory.createEmptyBook(), isbn: '123'};
+    const book = BookBuilder.createSomeBookWithIsbn('123');
     when(bookStoreServiceMock.getByIsbn(book.isbn)).thenReturn(asyncData(book));
     when(bookStoreServiceMock.remove(book)).thenReturn(asyncData({}));
 

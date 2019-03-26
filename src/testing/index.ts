@@ -2,6 +2,7 @@ import {Component, DebugElement} from '@angular/core';
 
 export * from './activated-route-stub';
 export * from './async-observable-helpers';
+export * from './book-builder';
 export * from './route-tester';
 export * from './router-link-stub-directive';
 export * from './router-outlet-component-stub';
@@ -18,10 +19,10 @@ export const ButtonClickEvents = {
   right: {button: 2}
 };
 
-export function click(el: DebugElement | HTMLElement, eventObj: any = ButtonClickEvents.left): void {
-  if (el instanceof HTMLElement) {
-    el.click();
+export function click(element: DebugElement | HTMLElement, eventObject: any = ButtonClickEvents.left): void {
+  if (element instanceof HTMLElement) {
+    element.click();
   } else {
-    el.triggerEventHandler('click', eventObj);
+    element.triggerEventHandler('click', eventObject);
   }
 }
