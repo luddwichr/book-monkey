@@ -11,8 +11,9 @@ I deviated from the book project, in that I:
 - use Yarn instead of NPM (see related [commit](https://github.com/luddwichr/book-monkey/commit/23b2ed8423cf4fa2a15c72b08fe94fdd3857b911))
 - use Jest instead of Karma/Jasmine for unit testing (see related [commit](https://github.com/luddwichr/book-monkey/commit/6739f8b57af88e6b11371582b2fd4bc81a0c0e73))
 - use prettier with a git-hook (via husky) for consistent formatting (see related [commit](https://github.com/luddwichr/book-monkey/commit/0cc24c30cba1369e2efbb21a6840ee4141d6e952))
+- use sonarts for additional linting, especially code duplication (see related [commit](https://github.com/luddwichr/book-monkey/commit/f0559d26940bc17b7966308588bd965edb4ce7e8))
 - use ng-mocks and ts-mockito for easier testing (see [commit](https://github.com/luddwichr/book-monkey/commit/0035a3e7d63fdbe8dd0195ceb5cb01b1dc440af5) and [commit](https://github.com/luddwichr/book-monkey/commit/0979e10c93dfc1ea2a225a7efc913dbe9989e925) for initial setup and usage)
-- write tests as much as possible (including services, component input/output, routing)
+- write tests as much as possible (including services, component input/output, routing, http)
 
 ## Branches
 
