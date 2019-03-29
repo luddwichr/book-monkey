@@ -13,5 +13,9 @@
     "target": "es5",
     "types": ["jest", "node"],
     "lib": ["es2018", "dom"]
+  },
+  "angularCompilerOptions": {
+    "strictInjectionParameters": true,
+    "fullTemplateTypeCheck": true
   }
 }
