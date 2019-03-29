@@ -1,6 +1,6 @@
 import {async, TestBed} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
-import {MockRender} from 'ng-mocks';
+import {MockHelper, MockRender} from 'ng-mocks';
 import {Book} from '../shared/book';
 import {BookListItemComponent} from './book-list-item.component';
 
@@ -13,8 +13,7 @@ describe('BookListItemComponent', () => {
 
   function setup(book: Book) {
     const fixture = MockRender('<bm-book-list-item [book]=book></bm-book-list-item>', {book});
-    const component = fixture.debugElement.query(By.directive(BookListItemComponent))
-      .componentInstance as BookListItemComponent;
+    const component = MockHelper.findDirective(fixture.debugElement, BookListItemComponent);
     return {fixture, component};
   }
 

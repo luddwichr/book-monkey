@@ -1,7 +1,7 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
-import {MockComponent} from 'ng-mocks';
+import {MockComponent, MockHelper} from 'ng-mocks';
 import {BookBuilder, click, RouterLinkStubDirective} from 'src/testing';
 import {deepEqual, instance, mock, verify} from 'ts-mockito';
 import {SearchComponent} from '../search/search.component';
@@ -28,7 +28,7 @@ describe('HomeComponent', () => {
 
   it('should route to the book details for the book selected in the search component', () => {
     const {fixture} = setup();
-    const searchComponent = fixture.debugElement.query(By.directive(SearchComponent)).componentInstance;
+    const searchComponent = MockHelper.findDirective(fixture.debugElement, SearchComponent);
     const book = BookBuilder.createSomeBookWithIsbn('123');
     const activatedRouteMock = TestBed.get(ActivatedRoute);
 

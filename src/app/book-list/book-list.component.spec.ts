@@ -1,6 +1,6 @@
 import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
-import {MockComponent} from 'ng-mocks';
+import {MockComponent, MockHelper} from 'ng-mocks';
 import {asyncData, click, RouterLinkStubDirective} from 'src/testing';
 import {instance, mock, verify, when} from 'ts-mockito';
 import {BookListItemComponent} from '../book-list-item/book-list-item.component';
@@ -50,9 +50,7 @@ describe('BookListComponent', () => {
 
   it('should display a book list item for each book', fakeAsync(() => {
     const {fixture} = setup();
-    const bookListItems = fixture.debugElement
-      .queryAll(By.directive(BookListItemComponent))
-      .map(element => element.componentInstance as BookListItemComponent);
+    const bookListItems = MockHelper.findDirectives(fixture.debugElement, BookListItemComponent);
     expect(bookListItems).toHaveLength(2);
     expect(bookListItems[0].book).toBe(books[0]);
     expect(bookListItems[1].book).toBe(books[1]);
