@@ -73,21 +73,17 @@ describe('BookStoreService', () => {
   describe('create', () => {
     it('should send a request to the Book Monkey API to create the given book', done => {
       const bookToCreate = BookBuilder.createSomeBook();
-      const expectedCreatedBook = BookBuilder.createSomeBook();
-      bookStoreService.create(bookToCreate).subscribe((createdBook: Book) => {
-        expect(createdBook).toEqual(expectedCreatedBook);
-        done();
-      });
+      bookStoreService.create(bookToCreate).subscribe(done);
 
-      const mockRequest = httpMock.expectOne(
-        request =>
-          request.url === baseUrl + 'book' &&
-          request.method === 'POST' &&
-          request.body === JSON.stringify(bookToCreate) &&
-          request.headers.get('Content-Type') === 'application/json'
-      );
-
-      mockRequest.flush(expectedCreatedBook);
+      httpMock
+        .expectOne(
+          request =>
+            request.url === baseUrl + 'book' &&
+            request.method === 'POST' &&
+            request.body === JSON.stringify(bookToCreate) &&
+            request.headers.get('Content-Type') === 'application/json'
+        )
+        .flush(null);
     });
 
     it('should throw an error if creating a book failed', done => {
@@ -138,11 +134,8 @@ describe('BookStoreService', () => {
 
   describe('remove', () => {
     it('should send a request to the Book Monkey API to remove the given book', done => {
-      bookStoreService.remove(BookBuilder.createSomeBookWithIsbn('123')).subscribe(response => {
-        expect(response).toEqual({});
-        done();
-      });
-      httpMock.expectOne({url: baseUrl + 'book/123', method: 'DELETE'}).flush({});
+      bookStoreService.remove(BookBuilder.createSomeBookWithIsbn('123')).subscribe(done);
+      httpMock.expectOne({url: baseUrl + 'book/123', method: 'DELETE'}).flush(null);
     });
 
     it('should throw an error if removing a book failed', done => {

@@ -66,7 +66,7 @@ describe('BookDetailsComponent', () => {
     const {fixture} = setup();
     const book = BookBuilder.createSomeBookWithIsbn('123');
     when(bookStoreServiceMock.getByIsbn(book.isbn)).thenReturn(asyncData(book));
-    when(bookStoreServiceMock.remove(book)).thenReturn(asyncData({}));
+    when(bookStoreServiceMock.remove(book)).thenReturn(asyncData(null));
 
     fixture.detectChanges();
     tick();

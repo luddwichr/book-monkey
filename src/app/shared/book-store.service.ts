@@ -31,11 +31,10 @@ export class BookStoreService {
     );
   }
 
-  create(book: Book): Observable<Book> {
-    return this.http.post(`${this.apiBase}/book`, JSON.stringify(book), this.httpOptions).pipe(
-      map((rawBook: any) => this.createFromObject(rawBook)),
-      catchError(this.errorHandler)
-    );
+  create(book: Book): Observable<void> {
+    return this.http
+      .post(`${this.apiBase}/book`, JSON.stringify(book), this.httpOptions)
+      .pipe(catchError(this.errorHandler));
   }
 
   update(book: Book): Observable<Book> {
@@ -45,7 +44,7 @@ export class BookStoreService {
     );
   }
 
-  remove(book: Book): Observable<{}> {
+  remove(book: Book): Observable<void> {
     return this.http.delete(`${this.apiBase}/book/${book.isbn}`).pipe(catchError(this.errorHandler));
   }
 
