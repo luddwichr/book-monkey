@@ -5,6 +5,7 @@ import {instance, mock} from 'ts-mockito';
 import {routes} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BookDetailsComponent} from './book-details/book-details.component';
+import {BookFormComponent} from './book-form/book-form.component';
 import {BookListItemComponent} from './book-list-item/book-list-item.component';
 import {BookListComponent} from './book-list/book-list.component';
 import {HomeComponent} from './home/home.component';
@@ -15,7 +16,14 @@ describe('AppRoutingModule', () => {
   let fixture: ComponentFixture<AppComponent>;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AppComponent, HomeComponent, BookListComponent, BookListItemComponent, BookDetailsComponent],
+      declarations: [
+        AppComponent,
+        HomeComponent,
+        BookListComponent,
+        BookListItemComponent,
+        BookDetailsComponent,
+        BookFormComponent
+      ],
       providers: [RouteTester, {provide: BookStoreService, useValue: instance(mock(BookStoreService))}],
       imports: [RouterTestingModule.withRoutes(routes)]
     });
@@ -24,6 +32,7 @@ describe('AppRoutingModule', () => {
       .overrideComponent(BookListComponent, {set: {template: ''}})
       .overrideComponent(BookListItemComponent, {set: {template: ''}})
       .overrideComponent(BookDetailsComponent, {set: {template: ''}})
+      .overrideComponent(BookFormComponent, {set: {template: ''}})
       .createComponent(AppComponent);
     routeTester = TestBed.get(RouteTester);
   });
@@ -42,6 +51,10 @@ describe('AppRoutingModule', () => {
 
   it('should route `/books:isbn` to the book details component', fakeAsync(() => {
     validateRouting('/books/123', '/books/123', BookDetailsComponent);
+  }));
+
+  it('should route `/admin` to the book form component', fakeAsync(() => {
+    validateRouting('/admin', '/admin', BookFormComponent);
   }));
 
   it('should throw an error when routing to an unkown URL', fakeAsync(() => {

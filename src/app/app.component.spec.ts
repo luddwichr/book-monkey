@@ -15,6 +15,10 @@ class AppComponentPage {
   getBooksMenuItem(): DebugElement {
     return this.fixture.debugElement.query(By.css('#books'));
   }
+
+  getAdminMenuItem(): DebugElement {
+    return this.fixture.debugElement.query(By.css('#admin'));
+  }
 }
 
 describe('AppComponent', () => {
@@ -32,6 +36,10 @@ describe('AppComponent', () => {
           },
           {
             path: 'books',
+            component: DummyComponent
+          },
+          {
+            path: 'admin',
             component: DummyComponent
           }
         ])
@@ -82,6 +90,23 @@ describe('AppComponent', () => {
       const routerLinkActive = routeTester.getRouterLinkActive(page.getBooksMenuItem());
       expect(routerLinkActive.isActive).toBeFalsy();
       routeTester.navigateTo('books');
+      tick();
+      expect(routerLinkActive.isActive).toBeTruthy();
+    }));
+  });
+
+  describe('Administration navigation', () => {
+    it('should route to /admin', () => {
+      const {page} = setup();
+      const routerLink = routeTester.getRouterLink(page.getAdminMenuItem());
+      expect(routerLink.href).toEqual('/admin');
+    });
+
+    it('should be marked as active if on /admin', fakeAsync(() => {
+      const {page} = setup();
+      const routerLinkActive = routeTester.getRouterLinkActive(page.getAdminMenuItem());
+      expect(routerLinkActive.isActive).toBeFalsy();
+      routeTester.navigateTo('admin');
       tick();
       expect(routerLinkActive.isActive).toBeTruthy();
     }));
