@@ -29,7 +29,7 @@ export class SearchComponent implements OnInit {
       .subscribe(foundBooks => (this.foundBooks = foundBooks));
   }
 
-  selectBook(book: Book, event: Event) {
+  selectBook(book: Book, event: MouseEvent) {
     event.preventDefault();
     this.bookSelected.emit(book);
   }
