@@ -45,7 +45,7 @@ describe('BookListComponent', () => {
   it('should retrieve all books from the book store service', fakeAsync(() => {
     const {component} = setup();
     expect(component.books).toBe(books);
-    verify(bookStoreServiceMock.getAll()).called();
+    verify(bookStoreServiceMock.getAll()).once();
   }));
 
   it('should display a book list item for each book', fakeAsync(() => {

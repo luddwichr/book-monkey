@@ -134,8 +134,8 @@ describe('SearchComponent', () => {
       page.triggerSearch('c');
       tick(500);
       verify(bookStoreServiceMock.search('a')).never();
-      verify(bookStoreServiceMock.search('b')).called();
-      verify(bookStoreServiceMock.search('c')).called();
+      verify(bookStoreServiceMock.search('b')).once();
+      verify(bookStoreServiceMock.search('c')).once();
     }));
 
     it('should not dispatch new searches if the search term has not changed', fakeAsync(() => {
@@ -145,7 +145,7 @@ describe('SearchComponent', () => {
       tick(500);
       page.triggerSearch('');
       tick(500);
-      verify(bookStoreServiceMock.search(anyString())).called();
+      verify(bookStoreServiceMock.search(anyString())).once();
     }));
   });
 });

@@ -34,7 +34,7 @@ describe('HomeComponent', () => {
 
     searchComponent.bookSelected.emit(book);
 
-    verify(routerMock.navigate(deepEqual(['../books', '123']), deepEqual({relativeTo: activatedRouteMock}))).called();
+    verify(routerMock.navigate(deepEqual(['../books', '123']), deepEqual({relativeTo: activatedRouteMock}))).once();
   });
 
   it('should route to the books route if the back button is clicked', () => {
