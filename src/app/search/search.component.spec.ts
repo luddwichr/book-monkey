@@ -35,9 +35,10 @@ class SearchComponentPage {
 }
 
 describe('SearchComponent', () => {
-  const bookStoreServiceMock: BookStoreService = mock(BookStoreService);
+  let bookStoreServiceMock: BookStoreService;
 
   beforeEach(async(() => {
+    bookStoreServiceMock = mock(BookStoreService);
     TestBed.configureTestingModule({
       providers: [{provide: BookStoreService, useValue: instance(bookStoreServiceMock)}],
       declarations: [SearchComponent]
