@@ -19,6 +19,7 @@ export class BookFormComponent implements OnInit {
   ngOnInit() {
     this.bookForm.statusChanges.subscribe(() => this.updateErrorMessages());
   }
+
   updateErrorMessages(): void {
     this.errors = {};
     for (const message of BookFormErrorMessages) {
@@ -40,20 +41,19 @@ export class BookFormComponent implements OnInit {
     this.book.thumbnails = [this.bookForm.value.thumbnail];
     this.bookStoreService.create(this.book).subscribe(() => {
       this.book = this.emptyBook();
-      this.bookForm.reset(this.emptyBook());
+      this.bookForm.resetForm();
     });
   }
 
   private emptyBook(): Book {
     return {
-      isbn: '',
-      title: '',
-      authors: [],
-      published: new Date(),
-      subtitle: '',
-      rating: 0,
-      thumbnails: [{url: '', title: ''}],
-      description: ''
+      isbn: null,
+      title: null,
+      subtitle: null,
+      authors: [null],
+      published: null,
+      thumbnails: [{url: null, title: null}],
+      description: null
     };
   }
 }
