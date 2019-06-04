@@ -7,7 +7,7 @@ This is a training project mostly following the instructions from the book ["**A
 
 I deviated from the book project, in that I:
 
-- use Angular 7 instead of Angular 4
+- use Angular 8 instead of Angular 4 (see this [commit](https://github.com/luddwichr/book-monkey/commit/abb810db37145396aa8d3ee3749952101557d6d5) for upgrade from Angular 7 to 8)
 - use Yarn instead of NPM (see related [commit](https://github.com/luddwichr/book-monkey/commit/23b2ed8423cf4fa2a15c72b08fe94fdd3857b911))
 - use Jest instead of Karma/Jasmine for unit testing (see related [commit](https://github.com/luddwichr/book-monkey/commit/6739f8b57af88e6b11371582b2fd4bc81a0c0e73))
 - use prettier with a git-hook (via husky) for consistent formatting (see related [commit](https://github.com/luddwichr/book-monkey/commit/0cc24c30cba1369e2efbb21a6840ee4141d6e952))
@@ -18,4 +18,4 @@ I deviated from the book project, in that I:
 ## Branches
 
 - [Iteration 1, showing how to use and test @Input and @Output](https://github.com/luddwichr/book-monkey/tree/iteration_1_using_input_output)
-- [Iteration 2, showing how to use routing](https://github.com/luddwichr/book-monkey)
+- [Iteration 2-now, showing how to use routing](https://github.com/luddwichr/book-monkey) (currently master)
