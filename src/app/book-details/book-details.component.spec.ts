@@ -75,6 +75,7 @@ describe('BookDetailsComponent', () => {
     fixture.debugElement.query(By.css('#delete-button')).nativeElement.click();
     tick();
 
+    // @ts-ignore
     verify(routerMock.navigate(deepEqual(['../']), deepEqual({relativeTo: activeRouteStub}))).called();
   }));
 });
