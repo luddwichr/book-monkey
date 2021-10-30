@@ -1,0 +1,19 @@
+on: push
+name: Build
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '10'
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install
+      - name: Test
+        run: yarn test:ci
+      - name: End to End tests
+        run: yarn e2e:ci
+      - name: Send coverage data
+        uses: codecov/codecov-action@v2

@@ -1,6 +1,5 @@
 # BookMonkey
-
-[![Build Status](https://travis-ci.org/luddwichr/book-monkey.svg?branch=master)](https://travis-ci.org/luddwichr/book-monkey)
+![Build Status](https://github.com/luddwichr/book-monkey/actions/workflows/ci.yml/badge.svg)
 [![codecov](https://codecov.io/gh/luddwichr/book-monkey/branch/master/graph/badge.svg)](https://codecov.io/gh/luddwichr/book-monkey)
 
 This is a training project mostly following the instructions from the book ["**Angular**, Grundlagen, fortgeschrittene Techniken und Best Practices mit Typescript"](https://www.dpunkt.de/buecher/12400/9783864903571-angular.html).
