@@ -5,7 +5,7 @@ exports[`BookDetailsComponent should render the details for a book 1`] = `
   id="root0"
   ng-version="8.2.6"
 >
-
+  
   <div
     class="ui grid"
   >
@@ -19,7 +19,7 @@ exports[`BookDetailsComponent should render the details for a book 1`] = `
         <i
           class="remove icon"
         />
-        Buch löschen
+        Buch löschen 
       </div>
     </div>
     <div
@@ -58,17 +58,17 @@ exports[`BookDetailsComponent should render the details for a book 1`] = `
           >
             AutorInnen
           </h4>
-
+          
           <span>
              A
-
+            
             <span>
-              ,
+              , 
             </span>
           </span>
           <span>
              B
-
+            
           </span>
         </div>
         <div
@@ -79,7 +79,7 @@ exports[`BookDetailsComponent should render the details for a book 1`] = `
           >
             ISBN
           </h4>
-           123
+           123 
         </div>
         <div
           class="four wide column"
@@ -89,7 +89,7 @@ exports[`BookDetailsComponent should render the details for a book 1`] = `
           >
             Erschienen
           </h4>
-           May 30, 2019
+           May 30, 2019 
         </div>
         <div
           class="four wide column"
@@ -99,7 +99,7 @@ exports[`BookDetailsComponent should render the details for a book 1`] = `
           >
             Rating
           </h4>
-
+          
           <i
             class="yellow star icon"
           />
@@ -120,7 +120,7 @@ exports[`BookDetailsComponent should render the details for a book 1`] = `
       >
         Beschreibung
       </h3>
-       someDescription
+       someDescription 
     </div>
     <div
       class="sixteen wide column"
@@ -128,7 +128,7 @@ exports[`BookDetailsComponent should render the details for a book 1`] = `
       <div
         class="ui small images"
       >
-
+        
         <img
           alt="someImageTitle"
           src="someUrl"
